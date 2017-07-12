@@ -38,5 +38,9 @@ MsgEventPtr MachineBase::sendMessage(const MsgEventPtr msg)
 
 MsgEventPtr MachineBase::_pushMsgChild(MsgEventPtr msg)
 {
+	if (not m_child)
+	{
+		return {};
+	}
 	return m_child->sendMessage(msg);
 }

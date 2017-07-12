@@ -30,7 +30,7 @@ protected:
 		switchChild(std::move(stateMachine));
 	}
 	template < class T = StateBase>
-	MsgEventPtr SWITCH_STATE()
+	MsgEventPtr CREATE_MSG_SWITCH_STATE()
 	{
 		return std::make_shared<MsgEventSwitchState<T>>();
 	}
