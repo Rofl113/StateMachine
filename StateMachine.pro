@@ -30,7 +30,9 @@ SOURCES += main.cpp\
     StateMachine/StateMachineControl.cpp \
     StateMachine/StateBase.cpp \
     StateMachine/StateMachineBase.cpp \
-    StateMachine/Messages.cpp
+    StateMachine/Messages.cpp \
+    StateMachine/ManagerMessages.cpp \
+    StateMachine/ManagerMessagesControl.cpp
 
 HEADERS  += \
     StateMachine/MachineControl.h \
@@ -39,6 +41,8 @@ HEADERS  += \
     StateMachine/StateMachineControl.h \
     StateMachine/StateBase.h \
     StateMachine/StateMachineBase.h \
-    StateMachine/Messages.h
+    StateMachine/Messages.h \
+    StateMachine/ManagerMessages.h \
+    StateMachine/ManagerMessagesControl.h
 
 FORMS    +=

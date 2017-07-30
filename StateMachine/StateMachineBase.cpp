@@ -10,11 +10,6 @@ StateMachineBase::~StateMachineBase()
 
 }
 
-MsgEventPtr StateMachineBase::pushMsgState(MsgEventPtr msg)
-{
-	return _pushMsgChild(msg);
-}
-
 MsgEventPtr StateMachineBase::handleBeforeState(const MsgEventPtr msg)
 {
 	return msg;

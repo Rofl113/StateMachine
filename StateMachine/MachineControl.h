@@ -7,5 +7,5 @@ class MachineControl
 public:
 	MachineControl();
 	virtual ~MachineControl();
-	virtual MsgEventPtr sendMessage(const MsgEventPtr msg) = 0;
+	virtual void sendMessage(const MsgEventPtr msg) = 0;
 };

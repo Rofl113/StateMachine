@@ -34,7 +34,6 @@ protected:
 	{
 		return std::make_shared<MsgEventSwitchState<T>>();
 	}
-	MsgEventPtr pushMsgStateMachine(MsgEventPtr);
 
 private:
 	virtual MsgEventPtr _handleBeforeChild(const MsgEventPtr msgParent) override;
