@@ -2,12 +2,11 @@
 #include "MachineControl.h"
 
 class ManagerMessagesControl;
-
+class ManagerMessages;
 
 class MachineBase : public MachineControl
 {
 public:
-	void _setManager(std::shared_ptr<ManagerMessagesControl> manager);
 	MsgEventPtr _handleMessage(const MsgEventPtr msg);
 
 protected:
@@ -32,16 +31,19 @@ protected:
 	{
 		if (auto ch = dynamic_cast<MachineBase*>(child))
 		{
-			ch->_setRoot(m_root);
+			ch->setManager(m_manager);
 		}
 		m_child.reset(child);
 	}
 
 private:
 	virtual void sendMessage(const MsgEventPtr msg) override;
-	virtual void _setRoot(std::shared_ptr<MachineControl> root);
+	virtual void setManager(ManagerMessagesControl* manager) override;
 
-	std::shared_ptr<ManagerMessagesControl> m_manager;
-	std::shared_ptr<MachineControl> m_root;
+private:
+	void _setManager(ManagerMessagesControl* manager);
+
+	// root or manager
+	ManagerMessagesControl* m_manager;
 	std::shared_ptr<MachineControl> m_child;
 };

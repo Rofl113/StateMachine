@@ -7,14 +7,15 @@
 class ManagerMessages : public ManagerMessagesControl
 {
 public:
-	explicit ManagerMessages(std::shared_ptr<MachineControl> rootMachine = {});
+	explicit ManagerMessages();
 	virtual ~ManagerMessages();
-	virtual void setRootMachine(std::shared_ptr<MachineControl> rootMachine = {}) override;
-	virtual bool sendMessage(const MsgEventPtr& msg) override;
-	virtual bool work();
-
+	virtual bool pushMessages(const MsgEventPtr msg) override;
+	virtual bool processMessages() override;
+	virtual void setMachineRoot(MachineControl* machine) override;
 
 private:
+	void _setMachineRoot(MachineControl* machine);
+
 	std::queue<MsgEventPtr> m_msgQueue;
-	std::shared_ptr<MachineControl> m_rootMachine;
+	MachineControl* m_machineRoot;
 };

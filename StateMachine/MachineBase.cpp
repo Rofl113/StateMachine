@@ -16,12 +16,8 @@ MachineControl* MachineBase::MsgEventSwitchChild::createChild() const
 	return {};
 }
 
-void MachineBase::_setManager(std::shared_ptr<ManagerMessagesControl> manager)
-{
-	m_manager = manager;
-}
-
 MachineBase::MachineBase()
+	: m_manager(nullptr)
 {
 
 }
@@ -33,16 +29,25 @@ MachineBase::~MachineBase()
 
 void MachineBase::sendMessage(const MsgEventPtr msg)
 {
-	if (m_root)
-	{
-		return m_root->sendMessage(msg);
-	}
-	else if (m_manager)
-	{
-		return m_manager->sendMessage(msg), void();
-	}
-
 	return _handleMessage(msg), void();
+}
+
+void MachineBase::setManager(ManagerMessagesControl* manager)
+{
+	if (manager == m_manager)
+	{
+		return;
+	}
+	_setManager(manager);
+}
+
+void MachineBase::_setManager(ManagerMessagesControl* manager)
+{
+	m_manager = manager;
+	if (m_manager)
+	{
+		m_manager->setMachineRoot(this);
+	}
 }
 
 MsgEventPtr MachineBase::_handleMessage(const MsgEventPtr msg)
@@ -57,9 +62,4 @@ MsgEventPtr MachineBase::_handleMessage(const MsgEventPtr msg)
 	const auto msgOutChild = child->_handleMessage(msgOut);
 
 	return msgOutChild ? _handleAfterChild(msgOutChild) : MsgEventPtr{};
-}
-
-void MachineBase::_setRoot(std::shared_ptr<MachineControl> root)
-{
-	m_root = root;
 }

@@ -40,9 +40,10 @@ int main(int argc, char *argv[])
 		{
 			return -1;
 		}
-		manager = std::shared_ptr<ManagerMessagesControl>{mana};
+		manager = std::shared_ptr<ManagerMessagesControl>(mana);
 		mana = nullptr;
 	}
+
 	std::shared_ptr<MachineControl> machine;
 	{
 		auto mach = new StateMachineHello;
@@ -50,15 +51,28 @@ int main(int argc, char *argv[])
 		{
 			return -2;
 		}
-		machine = std::shared_ptr<MachineControl>{mach};
+		machine = std::shared_ptr<MachineControl>(mach);
 		mach = nullptr;
 	}
+
+	qDebug() << "Example One";
+	manager->setMachineRoot(nullptr);
 	machine->sendMessage(std::make_shared<MsgEventHello>("machine->sendMessage (AfterSetRoot)"));
-	manager->sendMessage(std::make_shared<MsgEventHello>("manager->sendMessage (AfterSetRoot)"));
-	manager->setRootMachine(machine);
+	manager->pushMessages(std::make_shared<MsgEventHello>("manager->sendMessage (AfterSetRoot)"));
+	manager->setMachineRoot(machine.get());
 	machine->sendMessage(std::make_shared<MsgEventHello>("machine->sendMessage (BeforeSetRoot)"));
-	manager->sendMessage(std::make_shared<MsgEventHello>("manager->sendMessage (BeforeSetRoot)"));
-	manager->work();
+	manager->pushMessages(std::make_shared<MsgEventHello>("manager->sendMessage (BeforeSetRoot)"));
+	manager->processMessages();
+
+	qDebug() << "\nExample Two";
+	manager->setMachineRoot(nullptr);
+	machine->sendMessage(std::make_shared<MsgEventHello>("machine->sendMessage (AfterSetRoot)"));
+	manager->pushMessages(std::make_shared<MsgEventHello>("manager->sendMessage (AfterSetRoot)"));
+	manager->processMessages();
+	manager->setMachineRoot(machine.get());
+	machine->sendMessage(std::make_shared<MsgEventHello>("machine->sendMessage (BeforeSetRoot)"));
+	manager->pushMessages(std::make_shared<MsgEventHello>("manager->sendMessage (BeforeSetRoot)"));
+	manager->processMessages();
 
 	return 0;
 }

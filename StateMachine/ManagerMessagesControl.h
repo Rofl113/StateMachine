@@ -1,16 +1,15 @@
 #pragma once
-#include <memory>
+#include "Messages.h"
 
 class MachineControl;
-class MsgEvent;
-using MsgEventPtr = std::shared_ptr<const MsgEvent>;
 
 // Менеджер Сообщений
 class ManagerMessagesControl
 {
 public:
+	ManagerMessagesControl();
 	virtual ~ManagerMessagesControl();
-	virtual void setRootMachine(std::shared_ptr<MachineControl> rootMachine = {}) = 0;
-	virtual bool sendMessage(const MsgEventPtr& msg) = 0;
-	virtual bool work() = 0;
+	virtual bool pushMessages(const MsgEventPtr msg) = 0;
+	virtual bool processMessages() = 0;
+	virtual void setMachineRoot(MachineControl* machine) = 0;
 };

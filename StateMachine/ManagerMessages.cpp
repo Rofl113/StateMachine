@@ -1,31 +1,16 @@
 #include "MachineBase.h"
 #include "ManagerMessages.h"
 
-ManagerMessages::ManagerMessages(std::shared_ptr<MachineControl> rootMachine)
-{
-	setRootMachine(rootMachine);
-}
-
-ManagerMessages::~ManagerMessages()
+ManagerMessages::ManagerMessages()
+	: m_machineRoot(nullptr)
 {
 
 }
+ManagerMessages::~ManagerMessages() {}
 
-void ManagerMessages::setRootMachine(std::shared_ptr<MachineControl> rootMachine)
+bool ManagerMessages::pushMessages(const MsgEventPtr msg)
 {
-	m_rootMachine = rootMachine;
-	if (m_rootMachine)
-	{
-		if (auto base = dynamic_cast<MachineBase*>(m_rootMachine.get()))
-		{
-			base->_setManager(std::shared_ptr<ManagerMessages>(this));
-		}
-	}
-}
-
-bool ManagerMessages::sendMessage(const MsgEventPtr& msg)
-{
-	if (!msg || !m_rootMachine)
+	if (nullptr == msg)
 	{
 		return false;
 	}
@@ -33,22 +18,40 @@ bool ManagerMessages::sendMessage(const MsgEventPtr& msg)
 	return true;
 }
 
-bool ManagerMessages::work()
+bool ManagerMessages::processMessages()
 {
-	if (!m_rootMachine)
-	{
-		return false;
-	}
-	auto base = dynamic_cast<MachineBase*>(m_rootMachine.get());
-	if (!base)
+	std::queue<MsgEventPtr> empty;
+	std::swap(m_msgQueue, empty);
+
+	if (nullptr == m_machineRoot)
 	{
 		return false;
 	}
 
-	while (not m_msgQueue.empty())
+	while (not empty.empty())
 	{
-		const auto msg = m_msgQueue.front();
-		m_msgQueue.pop();
-		base->_handleMessage(msg);
+		auto msg = empty.front();
+		empty.pop();
+		m_machineRoot->sendMessage(msg);
+	}
+
+	return true;
+}
+
+void ManagerMessages::setMachineRoot(MachineControl* machine)
+{
+	if (machine == m_machineRoot)
+	{
+		return;
+	}
+	_setMachineRoot(machine);
+}
+
+void ManagerMessages::_setMachineRoot(MachineControl* machine)
+{
+	m_machineRoot = machine;
+	if (m_machineRoot)
+	{
+		m_machineRoot->setManager(this);
 	}
 }
