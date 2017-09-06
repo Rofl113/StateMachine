@@ -17,6 +17,7 @@ protected:
 		MsgEventSwitchChild();
 		virtual ~MsgEventSwitchChild();
 		virtual MachineControl* createChild() const;
+		virtual const  MachineControl* getMachineMsg() const;
 	};
 
 protected:
@@ -35,6 +36,7 @@ protected:
 		}
 		m_child.reset(child);
 	}
+	const MachineControl* _getChild() const;
 
 private:
 	virtual void sendMessage(const MsgEventPtr& msg) override;

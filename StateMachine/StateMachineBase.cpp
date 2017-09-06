@@ -27,10 +27,14 @@ MsgEventPtr StateMachineBase::_handleBeforeChild(const MsgEventPtr& msg)
 
 MsgEventPtr StateMachineBase::_handleAfterChild(const MsgEventPtr& msg)
 {
-	if (auto msgSwitch = CAST_EVENT<MsgEventSwitchChild>(msg))
+	if (const auto msgSwitch = CAST_EVENT<MsgEventSwitchChild>(msg))
 	{
-		switchState(msgSwitch->createChild());
-		return {};
+		const auto machineMsg = msgSwitch->getMachineMsg();
+		if (machineMsg && (machineMsg == _getChild()))
+		{
+			switchState(msgSwitch->createChild());
+			return {};
+		}
 	}
 	return handleAfterState(msg);
 }

@@ -9,13 +9,19 @@ private:
 	class MsgEventSwitchState: private MsgEventSwitchChild
 	{
 	public:
-		MsgEventSwitchState() {}
+		MsgEventSwitchState(const MachineControl* machine) : m_machine(machine) {}
 		~MsgEventSwitchState() {}
 	private:
 		virtual MachineControl* createChild() const override
 		{
 			return new T();
 		}
+		virtual const MachineControl* getMachineMsg() const override
+		{
+			return m_machine;
+		}
+
+		const MachineControl* m_machine;
 	};
 protected:
 	virtual MsgEventPtr handleBeforeStateMachine(const MsgEventPtr& msgParent) override;
@@ -32,7 +38,7 @@ protected:
 	template < class T = StateBase>
 	MsgEventPtr CREATE_MSG_SWITCH_STATE()
 	{
-		return std::make_shared<MsgEventSwitchState<T>>();
+		return std::make_shared<MsgEventSwitchState<T>>(this);
 	}
 
 private:

@@ -16,6 +16,11 @@ MachineControl* MachineBase::MsgEventSwitchChild::createChild() const
 	return {};
 }
 
+const MachineControl* MachineBase::MsgEventSwitchChild::getMachineMsg() const
+{
+	return {};
+}
+
 MachineBase::MachineBase()
 	: m_manager(nullptr)
 {
@@ -25,6 +30,11 @@ MachineBase::MachineBase()
 MachineBase::~MachineBase()
 {
 
+}
+
+const MachineControl* MachineBase::_getChild() const
+{
+	return m_child.get();
 }
 
 void MachineBase::sendMessage(const MsgEventPtr& msg)
