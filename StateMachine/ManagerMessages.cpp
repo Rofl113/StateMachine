@@ -8,7 +8,7 @@ ManagerMessages::ManagerMessages()
 }
 ManagerMessages::~ManagerMessages() {}
 
-bool ManagerMessages::pushMessages(const MsgEventPtr msg)
+bool ManagerMessages::pushMessages(const MsgEventPtr& msg)
 {
 	if (nullptr == msg)
 	{

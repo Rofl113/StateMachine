@@ -9,7 +9,7 @@ class ManagerMessages : public ManagerMessagesControl
 public:
 	explicit ManagerMessages();
 	virtual ~ManagerMessages();
-	virtual bool pushMessages(const MsgEventPtr msg) override;
+	virtual bool pushMessages(const MsgEventPtr& msg) override;
 	virtual bool processMessages() override;
 	virtual void setMachineRoot(MachineControl* machine) override;
 

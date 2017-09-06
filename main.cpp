@@ -18,7 +18,7 @@ public:
 class StateMachineHello : public StateMachineBase
 {
 protected:
-	virtual MsgEventPtr handleBeforeState(const MsgEventPtr msgParent) override
+	virtual MsgEventPtr handleBeforeState(const MsgEventPtr& msgParent) override
 	{
 		if (auto msg = CAST_EVENT<MsgEventHello>(msgParent))
 		{

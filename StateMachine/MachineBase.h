@@ -7,7 +7,7 @@ class ManagerMessages;
 class MachineBase : public MachineControl
 {
 public:
-	MsgEventPtr _handleMessage(const MsgEventPtr msg);
+	MsgEventPtr _handleMessage(const MsgEventPtr& msg);
 
 protected:
 	class MsgEventSwitchChild : public MsgEvent
@@ -24,8 +24,8 @@ protected:
 	virtual ~MachineBase();
 
 protected:
-	virtual MsgEventPtr _handleBeforeChild(const MsgEventPtr msgParent) = 0;
-	virtual MsgEventPtr _handleAfterChild(const MsgEventPtr msgChild) = 0;
+	virtual MsgEventPtr _handleBeforeChild(const MsgEventPtr& msgParent) = 0;
+	virtual MsgEventPtr _handleAfterChild(const MsgEventPtr& msgChild) = 0;
 	template < class T = MachineBase>
 	void _switchChild(T* child)
 	{
@@ -37,7 +37,7 @@ protected:
 	}
 
 private:
-	virtual void sendMessage(const MsgEventPtr msg) override;
+	virtual void sendMessage(const MsgEventPtr& msg) override;
 	virtual void setManager(ManagerMessagesControl* manager) override;
 
 private:

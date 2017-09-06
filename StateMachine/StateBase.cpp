@@ -10,22 +10,22 @@ StateBase::~StateBase()
 
 }
 
-MsgEventPtr StateBase::handleBeforeStateMachine(const MsgEventPtr msg)
+MsgEventPtr StateBase::handleBeforeStateMachine(const MsgEventPtr& msg)
 {
 	return msg;
 }
 
-MsgEventPtr StateBase::handleAfterStateMachine(const MsgEventPtr msg)
+MsgEventPtr StateBase::handleAfterStateMachine(const MsgEventPtr& msg)
 {
 	return msg;
 }
 
-MsgEventPtr StateBase::_handleBeforeChild(const MsgEventPtr msg)
+MsgEventPtr StateBase::_handleBeforeChild(const MsgEventPtr& msg)
 {
 	return handleBeforeStateMachine(msg);
 }
 
-MsgEventPtr StateBase::_handleAfterChild(const MsgEventPtr msg)
+MsgEventPtr StateBase::_handleAfterChild(const MsgEventPtr& msg)
 {
 	return handleAfterStateMachine(msg);
 }

@@ -18,8 +18,8 @@ private:
 		}
 	};
 protected:
-	virtual MsgEventPtr handleBeforeStateMachine(const MsgEventPtr msgParent) override;
-	virtual MsgEventPtr handleAfterStateMachine(const MsgEventPtr msgChild) override;
+	virtual MsgEventPtr handleBeforeStateMachine(const MsgEventPtr& msgParent) override;
+	virtual MsgEventPtr handleAfterStateMachine(const MsgEventPtr& msgChild) override;
 
 protected:
 	StateBase();
@@ -36,6 +36,6 @@ protected:
 	}
 
 private:
-	virtual MsgEventPtr _handleBeforeChild(const MsgEventPtr msgParent) override;
-	virtual MsgEventPtr _handleAfterChild(const MsgEventPtr msgChild) override;
+	virtual MsgEventPtr _handleBeforeChild(const MsgEventPtr& msgParent) override;
+	virtual MsgEventPtr _handleAfterChild(const MsgEventPtr& msgChild) override;
 };

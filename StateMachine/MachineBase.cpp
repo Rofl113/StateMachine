@@ -27,7 +27,7 @@ MachineBase::~MachineBase()
 
 }
 
-void MachineBase::sendMessage(const MsgEventPtr msg)
+void MachineBase::sendMessage(const MsgEventPtr& msg)
 {
 	return _handleMessage(msg), void();
 }
@@ -50,7 +50,7 @@ void MachineBase::_setManager(ManagerMessagesControl* manager)
 	}
 }
 
-MsgEventPtr MachineBase::_handleMessage(const MsgEventPtr msg)
+MsgEventPtr MachineBase::_handleMessage(const MsgEventPtr& msg)
 {
 	const auto msgOut = _handleBeforeChild(msg);
 	if (!m_child || !msgOut)
