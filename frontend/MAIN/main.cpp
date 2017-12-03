@@ -1,7 +1,6 @@
-#include <QDebug>
-#include <QApplication>
-#include "StateMachine/StateMachineBase.h"
-#include "StateMachine/ManagerMessages.h"
+#include <iostream>
+#include "StateMachineBase.h"
+#include "ManagerMessages.h"
 
 class MsgEventHello : public MsgEvent
 {
@@ -22,7 +21,7 @@ protected:
 	{
 		if (auto msg = CAST_EVENT<MsgEventHello>(msgParent))
 		{
-			qDebug() << QString(msg->m_name.c_str()) << "= Hello!";
+            std::cout << msg->m_name << "= Hello!" << std::endl;
 			return {};
 		}
 		return msgParent;
@@ -31,8 +30,6 @@ protected:
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
-
 	std::shared_ptr<ManagerMessagesControl> manager;
 	{
 		auto mana = new ManagerMessages;
@@ -55,7 +52,7 @@ int main(int argc, char *argv[])
 		mach = nullptr;
 	}
 
-	qDebug() << "Example One";
+    std::cout << "Example One" << std::endl;
 	manager->setMachineRoot(nullptr);
 	machine->sendMessage(std::make_shared<MsgEventHello>("machine->sendMessage (AfterSetRoot)"));
 	manager->pushMessages(std::make_shared<MsgEventHello>("manager->sendMessage (AfterSetRoot)"));
@@ -64,7 +61,7 @@ int main(int argc, char *argv[])
 	manager->pushMessages(std::make_shared<MsgEventHello>("manager->sendMessage (BeforeSetRoot)"));
 	manager->processMessages();
 
-	qDebug() << "\nExample Two";
+    std::cout << "\nExample Two" << std::endl;
 	manager->setMachineRoot(nullptr);
 	machine->sendMessage(std::make_shared<MsgEventHello>("machine->sendMessage (AfterSetRoot)"));
 	manager->pushMessages(std::make_shared<MsgEventHello>("manager->sendMessage (AfterSetRoot)"));
